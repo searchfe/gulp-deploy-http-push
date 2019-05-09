@@ -1,0 +1,86 @@
+{
+  "name": "gulp-deploy-http-push",
+  "version": "0.0.1",
+  "discription": "gulp-deploy-http-push",
+  "scripts": {
+    "preversion": "npm run lint && npm run cover",
+    "lint": "tslint src/**/*.ts test/**/*.ts",
+    "doc": "gulp doc",
+    "conf": "tsc && node_modules/ts-node/dist/bin.js src/configuration/generate.ts",
+    "test": "jest --no-cache",
+    "test0": "node_modules/mocha/bin/_mocha --require ts-node/register --require source-map-support/register -t 3000 --recursive",
+    "cover": "node_modules/nyc/bin/nyc.js npm run test test/**/*.ts && node_modules/nyc/bin/nyc.js report --reporter=text",
+    "coveralls": "npm run cover && nyc report --reporter=text-lcov | coveralls",
+    "url": "echo visit: http://127.0.0.1:8077/demo/?debug",
+    "build": "gulp",
+    "watch": "gulp watch & npm start",
+    "start": "npm run url && http-server ./ -c-1 -p 8077"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+http://xxx.com/demo"
+  },
+  "homepage": "http://xxx.com/demo",
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/ftp": "^0.3.29",
+    "@types/jest": "^24.0.11",
+    "@types/node": "^10.14.1",
+    "@types/underscore": "^1.8.9",
+    "chai": "^4.1.2",
+    "coveralls": "^3.0.2",
+    "del": "^3.0.0",
+    "etpl": "^3.2.0",
+    "findup-sync": "^2.0.0",
+    "gulp": "^4.0.1",
+    "gulp-base64-inline": "^1.0.4",
+    "gulp-inline-template": "^1.1.5",
+    "gulp-replace": "^1.0.0",
+    "gulp-typedoc": "^2.2.1",
+    "gulp-typescript": "^5.0.0-alpha.3",
+    "gulp-util": "^3.0.8",
+    "http-server": "^0.11.1",
+    "istanbul": "^0.4.5",
+    "jest": "^24.7.1",
+    "jsdoc-to-markdown": "^4.0.1",
+    "nyc": "^13.0.1",
+    "source-map-support": "^0.5.9",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typedoc": "^0.12.0",
+    "typedoc-plugin-markdown": "^1.1.15",
+    "typescript": "^3.1.6"
+  },
+  "dependencies": {
+    "prompt": "^1.0.0"
+  },
+  "engines": {
+    "node": ">= 6.0.x"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "author": "",
+  "files": [
+    "dist",
+    "*.json",
+    "*.md"
+  ],
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "**/*.d.ts"
+    ],
+    "reporter": [
+      "html"
+    ],
+    "all": true
+  }
+}
