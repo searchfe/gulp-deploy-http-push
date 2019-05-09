@@ -18,9 +18,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+http://xxx.com/demo"
+    "url": "git+http://github.com/searchfe/gulp-deploy-http-push"
   },
-  "homepage": "http://xxx.com/demo",
+  "homepage": "https://github.com/searchfe/gulp-deploy-http-push",
   "devDependencies": {
     "@types/chai": "^4.1.4",
     "@types/ftp": "^0.3.29",
