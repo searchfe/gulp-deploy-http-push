@@ -18,9 +18,9 @@ export function httpPush(options: IDeployOption[]) {
     transform: (file: File, enc, callback) => {
       if (!file.isDirectory()) {
         options.forEach((option) => {
-          if (include(file.path, option.match, {
+          if (!option.match || (option.match && include(file.path, option.match, {
             root: file.base,
-          })) {
+          }))) {
             restrictor.add({
               host: option.host,
               retry: 2,
@@ -45,7 +45,7 @@ interface IDeployOption {
   /** 要部署的机器HOST */
   host: string;
   /** 符合条件的文件的glob */
-  match: string;
+  match?: string;
   /** 要部署的basePath */
   to: string;
 }
