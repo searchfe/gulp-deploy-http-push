@@ -38,7 +38,7 @@ export function Deploy(options: IOptions | IOptions[], modified: IFile[], total,
       // console.log('FFF', file.content);
       upload(receiver, to, info,
         file.getHashRelease ? file.getHashRelease() : file.relative,
-        file.getContent ? file.getContent() : file.contents && file.contents.toString(),
+        file.contents,
         file, (error) => {
         if (error) {
           if (error.errno === 100302 || error.errno === 100305) {
