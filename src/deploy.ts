@@ -35,13 +35,12 @@ export function Deploy(options: IOptions | IOptions[], modified: IFile[], total,
     let reTryCount = option.retry;
 
     steps.push(function reduce(next) {
-      // console.log('FFF', file.content);
       upload(receiver, to, info,
         file.getHashRelease ? file.getHashRelease() : file.relative,
         file.contents,
         file, (error) => {
         if (error) {
-          if (error.errno === 100302 || error.errno === 100305) {
+          if (error.errno > 100000) {
             // 检测到后端限制了上传，要求用户输入信息再继续。
 
             if (!authApi || !validateApi) {

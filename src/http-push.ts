@@ -12,6 +12,7 @@ import { Restrictor } from './restrictor';
 const Transform = stream.Transform;
 
 export function httpPush(options: IDeployOption[]) {
+  console.log('[gulp-deploy-http-push] httpPush() is deprecated, use push() instead');
   const restrictor = new Restrictor();
   return new Transform({
     objectMode: true,
