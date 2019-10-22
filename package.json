@@ -1,6 +1,6 @@
 {
   "name": "gulp-deploy-http-push",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "discription": "gulp-deploy-http-push",
   "scripts": {
     "preversion": "npm run lint && npm run cover",
@@ -53,7 +53,8 @@
     "typescript": "^3.1.6"
   },
   "dependencies": {
-    "prompt": "^1.0.0"
+    "prompt": "^1.0.0",
+    "readable-stream": "^3.4.0"
   },
   "engines": {
     "node": ">= 6.0.x"
