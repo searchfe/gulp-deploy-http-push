@@ -6,11 +6,35 @@
  */
 import * as prompt from 'prompt';
 import { fetch } from './fetch';
-import * as Token from './token';
+import { getToken, writeToken } from './token';
 
+type Callback = (error?: Error) => void;
+
+const waiting: Callback[] = [];
 prompt.start();
 
-export function requireEmail(authApi, validateApi, info, cb) {
+function resolve(err?: Error) {
+  while (waiting.length) {
+    waiting.pop()!(err);
+  }
+}
+
+export function requireEmail(authApi, validateApi, prevError, cb: Callback) {
+  if (!authApi || !validateApi) {
+    throw new Error('options.authApi and options.validateApi is required!');
+  }
+
+  waiting.push(cb);
+
+  if (waiting.length > 1) { // already getting
+    return;
+  }
+
+  const info = getToken();
+  if (info.email) {
+    console.error('\nToken is invalid: ', prevError.errmsg, '\n');
+  }
+
   prompt.get({
     properties: {
       email: {
@@ -24,22 +48,22 @@ export function requireEmail(authApi, validateApi, info, cb) {
     },
   }, (error, ret) => {
     if (error) {
-      return cb(error);
+      return resolve(error);
     }
 
     info.email = ret.email;
-    Token.writeToken(info);
+    writeToken(info);
 
     fetch(authApi, {
       email: ret.email,
     }, (err) => {
       if (err) {
-        return cb(error);
+        return resolve(error);
       }
 
       console.log('We\'re already sent the code to your email.');
 
-      requireToken(validateApi, info, cb);
+      requireToken(validateApi, info, resolve);
     });
   });
 }
@@ -59,7 +83,7 @@ function requireToken(validateApi, info, cb) {
     }
 
     info.code = ret.code;
-    Token.writeToken(info);
+    writeToken(info);
     fetch(validateApi, {
       code: info.code,
       email: info.email,
@@ -69,7 +93,7 @@ function requireToken(validateApi, info, cb) {
       }
 
       info.token = rs.data.token;
-      Token.writeToken(info);
+      writeToken(info);
       cb(null, info);
     });
   });
