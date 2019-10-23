@@ -6,14 +6,15 @@
  */
 import { parseUrl } from './fetch';
 import { IFile } from './file';
+import { getToken } from './token';
 import { Text } from './util';
 
-export function upload(receiver, to, data, release, content, file: IFile, callback) {
+export function upload(receiver, to, release, content, file: IFile, callback) {
   const subpath = file.subpath || file.relative;
   if (!subpath) {
     throw new Error('subpath is undefined');
   }
-  data.to = to + release;
+  const data = {...getToken(), to: to + release};
   fupload(
       // url, request options, post data, file
       receiver, null, data, content, subpath,
@@ -59,7 +60,7 @@ export function upload(receiver, to, data, release, content, file: IFile, callba
  * @name upload
  * @function
  */
-function fupload(url, opt, data: {[index: string]: string}, content, subpath, callback) {
+function fupload(url, opt, data: {[index: string]: string | undefined}, content, subpath, callback) {
   if (typeof content === 'string') {
     content = new Buffer(content, 'utf8');
   } else if (!(content instanceof Buffer)) {
