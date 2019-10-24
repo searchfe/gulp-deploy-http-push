@@ -84,6 +84,7 @@
     ]
   },
   "dependencies": {
+    "fs-extra": "^8.1.0",
     "prompt": "^1.0.0",
     "readable-stream": "^3.4.0"
   },

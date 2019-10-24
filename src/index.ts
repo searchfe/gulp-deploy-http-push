@@ -8,3 +8,4 @@
 export { Deploy } from './deploy';
 export { httpPush } from './http-push';
 export { push } from './push';
+export { deleteCache } from './cache';

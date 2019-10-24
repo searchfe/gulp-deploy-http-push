@@ -16,6 +16,8 @@ export function Deploy (options: IOptions | IOptions[], modified: IFile[], total
     modified.forEach((file, index) => {
         const option = Array.isArray(options) ? options[index] : options;
         const to = option.to;
+        const cachePath = option.cachePath;
+        const cache = option.cache;
         let receiver = option.receiver;
         let authApi = option.authApi;
         let validateApi = option.validateApi;
@@ -34,6 +36,8 @@ export function Deploy (options: IOptions | IOptions[], modified: IFile[], total
 
         steps.push(function reduce (next) {
             upload(receiver, to,
+                cache,
+                cachePath,
                 file.getHashRelease ? file.getHashRelease() : file.relative,
                 file.contents,
                 file, (error) => error ? errorHandler(file, error, () => reduce(next)) : next()
@@ -61,8 +65,7 @@ export function Deploy (options: IOptions | IOptions[], modified: IFile[], total
         (next, current) => {
             return () => current(next);
         },
-        callback
-    )();
+        callback)();
 }
 
 export interface IOptions {
@@ -74,4 +77,6 @@ export interface IOptions {
   receiver?: string;
   validateApi?: string;
   retry: number;
+  cachePath: string;
+  cache: boolean;
 }

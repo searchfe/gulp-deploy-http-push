@@ -15,4 +15,6 @@ interface IFISFile {
 export interface IGulpFile {
   contents?: Buffer;
   relative?: string;
+  stat?: any;
+  path?: string;
 }

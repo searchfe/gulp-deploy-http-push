@@ -4,12 +4,12 @@
  * @Last Modified by: qiansc
  * @Last Modified time: 2019-05-09 18:55:37
  */
+import { saveCache } from './cache';
 import { parseUrl } from './fetch';
 import { IFile } from './file';
 import { getToken } from './token';
 import { Text } from './util';
-
-export function upload (receiver, to, release, content, file: IFile, callback) {
+export function upload(receiver, to, cache, cachePath, release, content, file: IFile, callback) {
     const subpath = file.subpath || file.relative;
     if (!subpath) {
         throw new Error('subpath is undefined');
@@ -42,6 +42,9 @@ export function upload (receiver, to, release, content, file: IFile, callback) {
               Text.blod(Text.yellow(' >> ')) +
               to + release
                 );
+                if (cache) {
+                    saveCache(file, cachePath);
+                }
                 callback();
             }
         }

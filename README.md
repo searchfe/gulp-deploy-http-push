@@ -36,11 +36,13 @@ gulp.src(
     host: PUSH,
     match: '/**/*.tpl',
     to: '/home/work/xxx/template/', // 注意这个是指的是测试机器的路径，而非本地机器
+    cache: true // 是否使用缓存，默认缓存路径 ./node_modules/gulp-depoly-http-push/http-cache
   },
   {
     host: PUSH,
     match: '/static/**',
     to: '/home/work/xxx/webroot/', // 注意这个是指的是测试机器的路径，而非本地机器
+    cache: true // 是否使用缓存，默认缓存路径 ./node_modules/gulp-depoly-http-push/http-cache
   },
 ]));
 

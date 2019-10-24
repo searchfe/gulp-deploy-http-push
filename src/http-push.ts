@@ -6,31 +6,34 @@
  */
 
 import { File } from 'gulp-util';
+import stream = require('readable-stream');
+import { defaultCachePath, hasCache, mkdirsSync } from './cache';
 import { include } from './filter';
 import { Restrictor } from './restrictor';
-import stream = require('readable-stream');
 const Transform = stream.Transform;
 
 export function httpPush (options: IDeployOption[]) {
     console.log('[gulp-deploy-http-push] httpPush() is deprecated, use push() instead');
     const restrictor = new Restrictor();
+    const cachePath = options[0].cachePath ? options[0].cachePath : defaultCachePath;
+    mkdirsSync(cachePath);
     return new Transform({
         objectMode: true,
         transform: (file: File, enc, callback) => {
             if (!file.isDirectory()) {
                 options.forEach((option) => {
                     if (!option.match || (option.match && include(file.path, option.match, {
-                        root: file.base
-                    }))) {
+                        root: file.base})) && !hasCache(cachePath, file)) {
                         restrictor.add({
+                            cache: option.cache ? true : false,
+                            cachePath,
                             host: option.host,
                             retry: 2,
-                            to: option.to
-
-                        }, {
+                            to: option.to}, {
                             contents: file.contents,
-                            relative: '/' + file.relative
-                        });
+                            path: file.path,
+                            relative: '/' + file.relative,
+                            stat: file.stat});
                         // 在match名单中
                         // console.log(option.to, file.path);
                     }
@@ -48,4 +51,8 @@ interface IDeployOption {
   match?: string;
   /** 要部署的basePath */
   to: string;
+  /** 缓存存放目录 */
+  cachePath?: string;
+  /** 是否缓存 */
+  cache?: boolean;
 }
