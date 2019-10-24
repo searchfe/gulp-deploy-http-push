@@ -15,7 +15,13 @@
     "build": "gulp",
     "watch": "gulp watch & npm start",
     "start": "npm run url && http-server ./ -c-1 -p 8077",
+    "commit": "git-cz",
     "semantic-release": "semantic-release"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
   },
   "repository": {
     "type": "git",
@@ -66,6 +72,16 @@
     "typedoc-plugin-markdown": "^1.1.15",
     "typescript": "^3.1.6",
     "semantic-release": "^15.13.27"
+  },
+  "release": {
+    "branch": "master",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git"
+    ]
   },
   "dependencies": {
     "prompt": "^1.0.0",
