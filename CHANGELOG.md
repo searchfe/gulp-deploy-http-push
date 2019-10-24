@@ -1,3 +1,11 @@
+# [0.2.0](https://github.com/searchfe/gulp-deploy-http-push/compare/v0.1.2...v0.2.0) (2019-10-24)
+
+
+### Features
+
+* add cache ([f8cf685](https://github.com/searchfe/gulp-deploy-http-push/commit/f8cf685e22aa579fa71153d6df847747bc501c76))
+* add cache ([3b979f8](https://github.com/searchfe/gulp-deploy-http-push/commit/3b979f89e1e95d20b2bff9fc9f19c46c6165b86e))
+
 ## [0.1.2](https://github.com/searchfe/gulp-deploy-http-push/compare/v0.1.1...v0.1.2) (2019-10-24)
 
 
