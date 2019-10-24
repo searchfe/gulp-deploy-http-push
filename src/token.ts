@@ -18,16 +18,21 @@ if (!existsSync(TOKEN_FILE)) {
 
 const TOKEN_PATH = resolve(TOKEN_FILE);
 
+let token: null|IToken = null;
+
 export function getToken(): IToken {
-  if (existsSync(TOKEN_PATH)) {
-    return JSON.parse(readFileSync(TOKEN_PATH).toString() || '{}') as IToken;
-  } else {
-    return {};
+  if (token !== null) {
+    return token;
   }
+  token = existsSync(TOKEN_PATH)
+    ? JSON.parse(readFileSync(TOKEN_PATH).toString() || '{}') as IToken
+    : {};
+  return token;
 }
 
 export function writeToken(options) {
    writeFileSync(TOKEN_PATH, JSON.stringify(options, null, 2));
+   token = options;
 }
 
 export interface IToken {

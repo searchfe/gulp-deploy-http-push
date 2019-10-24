@@ -11,8 +11,6 @@ import { requireEmail } from './util';
 
 /** 兼容FIS3-DEPLOY-HTTP-PUSH的Deploy方法 可以直接替换其对应FIS插件 */
 export function Deploy(options: IOptions | IOptions[], modified: IFile[], total, callback) {
-  const info = Token.getToken();
-
   const steps: any[] = [];
 
   modified.forEach((file, index) => {
@@ -35,47 +33,36 @@ export function Deploy(options: IOptions | IOptions[], modified: IFile[], total,
     let reTryCount = option.retry;
 
     steps.push(function reduce(next) {
-      upload(receiver, to, info,
+      upload(receiver, to,
         file.getHashRelease ? file.getHashRelease() : file.relative,
         file.contents,
-        file, (error) => {
-        if (error) {
-          if (error.errno > 100000) {
-            // 检测到后端限制了上传，要求用户输入信息再继续。
-
-            if (!authApi || !validateApi) {
-              throw new Error('options.authApi and options.validateApi is required!');
-            }
-
-            if (info.email) {
-              console.error('\nToken is invalid: ', error.errmsg, '\n');
-            }
-
-            requireEmail(authApi, validateApi, info, (err) => {
-              if (err) {
-                throw new Error('Auth failed! ' + error.errmsg);
-              } else {
-                reduce(next);
-              }
-            });
-          } else if (option.retry && !--reTryCount) {
-            throw new Error(error.errmsg || error);
-          } else {
-            reduce(next);
-          }
-        } else {
-          return next();
-        }
-      });
+        file, (error) => error ? errorHandler(file, error, () => reduce(next)) : next(),
+      );
     });
+
+    function errorHandler(f, error, next) {
+      if (error.errno > 100000) {
+        // 检测到后端限制了上传，要求用户输入信息再继续。
+        requireEmail(authApi, validateApi, error, (err) => {
+          if (err) {
+            throw new Error('Auth failed! ' + error.errmsg);
+          }
+          next();
+        });
+      } else if (option.retry && !--reTryCount) {
+        throw new Error(error.errmsg || error);
+      } else {
+        next();
+      }
+    }
   });
 
-  steps.reduceRight((next, current, currentIndex: number, arr) => {
-    return () => {
-      current(next);
-    };
-  }, callback)();
-
+  steps.reduceRight(
+    (next, current) => {
+      return () => current(next);
+    },
+    callback,
+  )();
 }
 
 export interface IOptions {
