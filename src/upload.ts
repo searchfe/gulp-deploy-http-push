@@ -9,7 +9,7 @@ import { parseUrl } from './fetch';
 import { IFile } from './file';
 import { getToken } from './token';
 import { Text } from './util';
-export function upload(receiver, to, cache, cachePath, release, content, file: IFile, callback) {
+export function upload (receiver, to, cache, cachePath, release, content, file: IFile, callback) {
     const subpath = file.subpath || file.relative;
     if (!subpath) {
         throw new Error('subpath is undefined');

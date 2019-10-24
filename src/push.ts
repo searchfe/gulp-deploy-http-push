@@ -3,7 +3,7 @@ import { Transform } from 'readable-stream';
 import { defaultCachePath, hasCache, mkdirsSync } from './cache';
 import { include } from './filter';
 import { Restrictor } from './restrictor';
-export function push(options: PushOptions) {
+export function push (options: PushOptions) {
     const restrictor = new Restrictor();
     const cachePath = options.cachePath ? options.cachePath : defaultCachePath;
     mkdirsSync(cachePath);
@@ -12,18 +12,18 @@ export function push(options: PushOptions) {
         transform: (file: File, enc, callback) => {
             if (!file.isDirectory() && !hasCache(cachePath, file)) {
                 restrictor.add({
-                    cache: options.cache ? true : false,
+                    cache: !!options.cache,
                     cachePath,
                     host: options.host,
                     retry: 2,
-                    to: options.to}, {
+                    to: options.to }, {
                     contents: file.contents,
                     path: file.path,
                     relative: '/' + file.relative,
-                    stat: file.stat});
+                    stat: file.stat });
             }
             callback();
-        }});
+        } });
 }
 
 interface PushOptions {

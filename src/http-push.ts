@@ -6,10 +6,10 @@
  */
 
 import { File } from 'gulp-util';
-import stream = require('readable-stream');
 import { defaultCachePath, hasCache, mkdirsSync } from './cache';
 import { include } from './filter';
 import { Restrictor } from './restrictor';
+import stream = require('readable-stream');
 const Transform = stream.Transform;
 
 export function httpPush (options: IDeployOption[]) {
@@ -22,18 +22,19 @@ export function httpPush (options: IDeployOption[]) {
         transform: (file: File, enc, callback) => {
             if (!file.isDirectory()) {
                 options.forEach((option) => {
-                    if (!option.match || (option.match && include(file.path, option.match, {
-                        root: file.base})) && !hasCache(cachePath, file)) {
+                    if (!hasCache(cachePath, file) && (!option.match ||
+                    (option.match && include(file.path, option.match, {
+                        root: file.base })))) {
                         restrictor.add({
-                            cache: option.cache ? true : false,
+                            cache: !!option.cache,
                             cachePath,
                             host: option.host,
                             retry: 2,
-                            to: option.to}, {
+                            to: option.to }, {
                             contents: file.contents,
                             path: file.path,
                             relative: '/' + file.relative,
-                            stat: file.stat});
+                            stat: file.stat });
                         // 在match名单中
                         // console.log(option.to, file.path);
                     }
