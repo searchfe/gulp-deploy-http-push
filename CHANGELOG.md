@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/searchfe/gulp-deploy-http-push/compare/v0.1.0...v0.1.1) (2019-10-24)
+
+
+### Bug Fixes
+
+* url.parse ([405ea7b](https://github.com/searchfe/gulp-deploy-http-push/commit/405ea7bd2fa82817252b111f8c01963d6e3e1cd2))
+
 # [0.1.0](https://github.com/searchfe/gulp-deploy-http-push/compare/v0.0.2...v0.1.0) (2019-10-24)
 
 
