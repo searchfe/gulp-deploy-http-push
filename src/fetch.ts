@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-05-07 14:31:35
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-05-09 18:54:15
+ * @Last Modified time: 2019-10-24 14:29:52
  *
  * fis3插件重构而来，实现不是很优雅
  */
@@ -78,7 +78,7 @@ interface IOption {
 
 export function parseUrl (url, opt: IOption) {
     opt = opt || {};
-    url = url.URL(url);
+    url = url.parse(url);
     const ssl = url.protocol === 'https:';
     opt.host = opt.host || opt.hostname || ((ssl || url.protocol === 'http:') ? url.hostname : 'localhost');
     opt.port = opt.port || (url.port || (ssl ? 443 : 80));
