@@ -1,10 +1,10 @@
 {
   "name": "gulp-deploy-http-push",
-  "version": "0.0.5",
+  "version": "0.0.0-development",
   "discription": "gulp-deploy-http-push",
   "scripts": {
     "preversion": "npm run lint && npm run cover",
-    "lint": "tslint src/**/*.ts test/**/*.ts",
+    "lint": "eslint 'src/**/*.ts'",
     "doc": "gulp doc",
     "conf": "tsc && node_modules/ts-node/dist/bin.js src/configuration/generate.ts",
     "test": "jest --no-cache",
@@ -14,14 +14,29 @@
     "url": "echo visit: http://127.0.0.1:8077/demo/?debug",
     "build": "gulp",
     "watch": "gulp watch & npm start",
-    "start": "npm run url && http-server ./ -c-1 -p 8077"
+    "start": "npm run url && http-server ./ -c-1 -p 8077",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
-    "url": "git+http://xxx.com/demo"
+    "url": "https://github.com/searchfe/gulp-transform-cache"
   },
-  "homepage": "http://xxx.com/demo",
+  "homepage": "https://github.com/searchfe/gulp-transform-cache",
   "devDependencies": {
+    "eslint": "^5.16.0",
+    "@semantic-release/changelog": "^3.0.2",
+    "@semantic-release/commit-analyzer": "^6.1.0",
+    "@semantic-release/git": "^7.0.8",
+    "@semantic-release/npm": "^5.1.7",
+    "@semantic-release/release-notes-generator": "^7.1.4",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.15.0",
+    "eslint-plugin-jest": "^22.6.4",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.3.0",
+    "@typescript-eslint/parser": "^2.3.0",
     "@types/chai": "^4.1.4",
     "@types/ftp": "^0.3.29",
     "@types/jest": "^24.0.11",
@@ -47,10 +62,10 @@
     "source-map-support": "^0.5.9",
     "ts-jest": "^24.0.2",
     "ts-node": "^7.0.1",
-    "tslint": "^5.11.0",
     "typedoc": "^0.12.0",
     "typedoc-plugin-markdown": "^1.1.15",
-    "typescript": "^3.1.6"
+    "typescript": "^3.1.6",
+    "semantic-release": "^15.13.27"
   },
   "dependencies": {
     "prompt": "^1.0.0",

@@ -15,30 +15,30 @@ export class Restrictor {
   private optionCache: IOptions[] = [];
   private status: 'UPLOADING' | 'WAIT' = 'WAIT';
   private injectCallBack: (() => void) | undefined;
-  constructor() {
-    // do nothing
+  constructor () {
+      // do nothing
   }
-  public add(options: IOptions, file: IGulpFile) {
-    this.fileCache.push(file);
-    this.optionCache.push(options);
-    this.setTimer();
+  public add (options: IOptions, file: IGulpFile) {
+      this.fileCache.push(file);
+      this.optionCache.push(options);
+      this.setTimer();
   }
 
-  private setTimer() {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      this.push();
-    }, this.timeout);
+  private setTimer () {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+          this.push();
+      }, this.timeout);
   }
-  private push() {
-    if (this.status === 'UPLOADING') {
-      this.setTimer();
-    } else {
-      this.status = 'UPLOADING';
-      Deploy(this.optionCache, this.fileCache, [] , () => {
-        this.status = 'WAIT';
-        console.log('\n');
-      });
-    }
+  private push () {
+      if (this.status === 'UPLOADING') {
+          this.setTimer();
+      } else {
+          this.status = 'UPLOADING';
+          Deploy(this.optionCache, this.fileCache, [], () => {
+              this.status = 'WAIT';
+              console.log('\n');
+          });
+      }
   }
 }

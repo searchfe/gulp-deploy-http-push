@@ -5,7 +5,7 @@
  * @Last Modified time: 2019-05-09 18:57:41
  */
 
-export interface IFile extends IFISFile , IGulpFile {}
+export interface IFile extends IFISFile, IGulpFile {}
 
 interface IFISFile {
   getHashRelease?: () => string;
