@@ -2,10 +2,11 @@
  * @Author: qiansc
  * @Date: 2019-05-07 14:31:35
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-10-24 14:53:18
+ * @Last Modified time: 2019-10-28 14:50:51
  *
  * fis3插件重构而来，实现不是很优雅
  */
+const URL = require('url');
 
 export function fetch (url, data, callback) {
     // var endl = '\r\n';
@@ -77,7 +78,8 @@ interface IOption {
 
 export function parseUrl (url, opt: IOption) {
     opt = opt || {};
-    url = new URL(url);
+    /* eslint-disable-next-line */
+    url = URL.parse(url);
     const ssl = url.protocol === 'https:';
     opt.host = opt.host || opt.hostname || ((ssl || url.protocol === 'http:') ? url.hostname : 'localhost');
     opt.port = opt.port || (url.port || (ssl ? 443 : 80));
