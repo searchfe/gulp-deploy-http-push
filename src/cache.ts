@@ -9,7 +9,7 @@ function getMd5 (str: string) {
 }
 export const defaultCachePath: string = resolve(process.cwd(), 'node_modules/gulp-deploy-http-push/http-cache/');
 export function saveCache (file: File, cachePath: string) {
-    writeFileSync(resolve(cachePath + '/' + getMd5(file.path + file.stat.mtimeMs)), '');
+    writeFileSync(resolve(cachePath + '/' + getMd5(file.path + file.stat.mtimeMs + file.stat.ctimeMs)), '');
 }
 export function deleteCache (dirPath: string = defaultCachePath) {
     removeSync(dirPath);
@@ -18,5 +18,5 @@ export function mkdirsSync (cachePath: string) {
     ensureDirSync(cachePath);
 }
 export function hasCache (cachePath: string, file: File): boolean {
-    return pathExistsSync(resolve(cachePath + '/' + getMd5(file.path + file.stat.mtimeMs)));
+    return pathExistsSync(resolve(cachePath + '/' + getMd5(file.path + file.stat.mtimeMs + file.stat.ctimeMs)));
 }
