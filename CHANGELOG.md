@@ -1,3 +1,10 @@
+## [0.3.1](https://github.com/searchfe/gulp-deploy-http-push/compare/v0.3.0...v0.3.1) (2019-11-01)
+
+
+### Bug Fixes
+
+* ctime ([5289670](https://github.com/searchfe/gulp-deploy-http-push/commit/5289670213baad6319627f8d815059514241b777))
+
 # [0.3.0](https://github.com/searchfe/gulp-deploy-http-push/compare/v0.2.1...v0.3.0) (2019-11-01)
 
 
