@@ -9,12 +9,12 @@ import { parseUrl } from './fetch';
 import { IFile } from './file';
 import { getToken } from './token';
 import { Text } from './util';
-export function upload (receiver, to, cache, cachePath, release, content, file: IFile, callback) {
+export function upload (receiver, to, cache, cachePath, release, content, file: IFile, callback, fisConfigFilePath?: string ) {
     const subpath = file.subpath || file.relative;
     if (!subpath) {
         throw new Error('subpath is undefined');
     }
-    const data = { ...getToken(), to: to + release };
+    const data = { ...getToken(fisConfigFilePath), to: to + release };
     fupload(
         // url, request options, post data, file
         receiver, null, data, content, subpath,

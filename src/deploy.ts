@@ -18,6 +18,7 @@ export function Deploy (options: IOptions | IOptions[], modified: IFile[], total
         const to = option.to;
         const cachePath = option.cachePath;
         const cache = option.cache;
+        const fisConfigFilePath = option.fisConfigFilePath;
         let receiver = option.receiver;
         let authApi = option.authApi;
         let validateApi = option.validateApi;
@@ -40,7 +41,9 @@ export function Deploy (options: IOptions | IOptions[], modified: IFile[], total
                 cachePath,
                 file.getHashRelease ? file.getHashRelease() : file.relative,
                 file.contents,
-                file, (error) => error ? errorHandler(file, error, () => reduce(next)) : next()
+                file,
+                (error) => error ? errorHandler(file, error, () => reduce(next)) : next(),
+                fisConfigFilePath
             );
         });
 
@@ -79,4 +82,6 @@ export interface IOptions {
   retry: number;
   cachePath: string;
   cache: boolean;
+  /** fis 的配置文件目录 */
+  fisConfigFilePath?: string;
 }

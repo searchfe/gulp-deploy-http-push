@@ -10,19 +10,24 @@ import { resolve } from 'path';
 
 const HOME = homedir();
 let TOKEN_FILE = `${HOME}/.fis3-tmp/deploy.json`;
+let hasCustomTokenPath = false;
 
 if (!existsSync(TOKEN_FILE)) {
     // 优先使用FIS3全局TOKEN 因为机器唯一 使用不同TOKEN会导致频繁验证
     TOKEN_FILE = `${HOME}/.gulp-deploy-http-push.json`;
 }
 
-const TOKEN_PATH = resolve(TOKEN_FILE);
+let TOKEN_PATH = resolve(TOKEN_FILE);
 
 let token: null|IToken = null;
 
-export function getToken (): IToken {
+export function getToken (fisConfigFilePath?: string): IToken {
     if (token !== null) {
         return token;
+    }
+    if (fisConfigFilePath && !hasCustomTokenPath) {
+        TOKEN_PATH = resolve(HOME + '/' + fisConfigFilePath);
+        hasCustomTokenPath = true;
     }
     token = existsSync(TOKEN_PATH)
         ? JSON.parse(readFileSync(TOKEN_PATH).toString() || '{}') as IToken
