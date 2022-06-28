@@ -30,11 +30,14 @@ export function httpPush (options: IDeployOption[]) {
                             cachePath,
                             host: option.host,
                             retry: 2,
-                            to: option.to }, {
+                            to: option.to,
+                            fisConfigFilePath: option.fisConfigFilePath
+                        }, {
                             contents: file.contents,
                             path: file.path,
                             relative: '/' + file.relative,
-                            stat: file.stat });
+                            stat: file.stat
+                        });
                         // 在match名单中
                         // console.log(option.to, file.path);
                     }
@@ -56,4 +59,5 @@ interface IDeployOption {
   cachePath?: string;
   /** 是否缓存 */
   cache?: boolean;
+  fisConfigFilePath?: string;
 }
