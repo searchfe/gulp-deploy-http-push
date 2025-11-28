@@ -1,6 +1,6 @@
 {
-  "name": "gulp-deploy-http-push",
-  "version": "0.3.1",
+  "name": "@baidu/gulp-deploy-http-push",
+  "version": "0.3.2",
   "discription": "gulp-deploy-http-push",
   "scripts": {
     "preversion": "npm run lint && npm run cover",
@@ -89,7 +89,7 @@
     "readable-stream": "^3.4.0"
   },
   "engines": {
-    "node": ">= 6.0.x"
+    "node": ">= 16.0.x && < 18.0.0"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

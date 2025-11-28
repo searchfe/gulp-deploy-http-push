@@ -47,7 +47,7 @@ export function Deploy (options: IOptions | IOptions[], modified: IFile[], total
         function errorHandler (f, error, next) {
             if (error.errno > 100000) {
                 // 检测到后端限制了上传，要求用户输入信息再继续。
-                requireEmail(authApi, validateApi, error, (err) => {
+                requireEmail(authApi, validateApi, receiver, error, (err) => {
                     if (err) {
                         throw new Error('Auth failed! ' + error.errmsg);
                     }

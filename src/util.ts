@@ -19,7 +19,7 @@ function resolve (err?: Error) {
     }
 }
 
-export function requireEmail (authApi, validateApi, prevError, cb: Callback) {
+export function requireEmail (authApi, validateApi, receiver, prevError, cb: Callback) {
     if (!authApi || !validateApi) {
         throw new Error('options.authApi and options.validateApi is required!');
     }
@@ -30,7 +30,7 @@ export function requireEmail (authApi, validateApi, prevError, cb: Callback) {
         return;
     }
 
-    const info = getToken();
+    const info = getToken(receiver);
     if (info.email) {
         console.error('\nToken is invalid: ', prevError.errmsg, '\n');
     }
@@ -52,7 +52,7 @@ export function requireEmail (authApi, validateApi, prevError, cb: Callback) {
         }
 
         info.email = ret.email;
-        writeToken(info);
+        writeToken(receiver, info);
 
         fetch(authApi, {
             email: ret.email
@@ -63,12 +63,12 @@ export function requireEmail (authApi, validateApi, prevError, cb: Callback) {
 
             console.log('We\'re already sent the code to your email.');
 
-            requireToken(validateApi, info, resolve);
+            requireToken(validateApi, receiver, info, resolve);
         });
     });
 }
 
-function requireToken (validateApi, info, cb) {
+function requireToken (validateApi, receiver, info, cb) {
     prompt.get({
         properties: {
             code: {
@@ -83,7 +83,7 @@ function requireToken (validateApi, info, cb) {
         }
 
         info.code = ret.code;
-        writeToken(info);
+        writeToken(receiver, info);
         fetch(validateApi, {
             code: info.code,
             email: info.email
@@ -93,7 +93,7 @@ function requireToken (validateApi, info, cb) {
             }
 
             info.token = rs.data.token;
-            writeToken(info);
+            writeToken(receiver, info);
             cb(null, info);
         });
     });

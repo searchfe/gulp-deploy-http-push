@@ -14,7 +14,7 @@ export function upload (receiver, to, cache, cachePath, release, content, file: 
     if (!subpath) {
         throw new Error('subpath is undefined');
     }
-    const data = { ...getToken(), to: to + release };
+    const data = { ...getToken(receiver), to: to + release };
     fupload(
         // url, request options, post data, file
         receiver, null, data, content, subpath,
